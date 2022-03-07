@@ -1,0 +1,35 @@
+USE penadb;
+
+SET @semana_id = 202210;
+
+CALL insert_boleto_lot_nac_xov(@semana_id, 00000);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00001);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00002);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00003);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00004);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00005);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00006);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00007);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00008);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00009);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00010);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00011);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00012);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00013);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00014);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00015);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00016);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00017);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00018);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00019);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00020);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00021);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00022);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00023);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00024);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00025);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00026);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00027);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00028);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00029);
+CALL insert_boleto_lot_nac_xov(@semana_id, 00030);

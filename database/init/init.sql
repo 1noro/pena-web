@@ -65,6 +65,7 @@ INSERT IGNORE INTO tipo_numero (id, nombre) VALUES
 DELIMITER $$
 
     -- Inserts
+    DROP PROCEDURE IF EXISTS insert_boleto_lot_nac_sab;$$
     CREATE PROCEDURE insert_boleto_lot_nac_sab(
         IN _semana_id INT,
         IN _numero INT
@@ -73,6 +74,7 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero, LAST_INSERT_ID(), 1);
     END;$$
 
+    DROP PROCEDURE IF EXISTS insert_boleto_lot_nac_xov;$$
     CREATE PROCEDURE insert_boleto_lot_nac_xov(
         IN _semana_id INT,
         IN _numero INT
@@ -81,6 +83,7 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero, LAST_INSERT_ID(), 1);
     END;$$
 
+    DROP PROCEDURE IF EXISTS insert_boleto_primitiva;$$
     CREATE PROCEDURE insert_boleto_primitiva(
         IN _semana_id INT,
         IN _numero1 INT,
@@ -89,6 +92,8 @@ DELIMITER $$
         IN _numero4 INT,
         IN _numero5 INT,
         IN _numero6 INT,
+        IN _numero7 INT,
+        IN _numero8 INT,
         IN _reintegro INT
     ) BEGIN
         INSERT INTO boleto (sorteo_id, semana_id) VALUES (3, _semana_id);
@@ -99,9 +104,12 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero4, @boleto_id, 1);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero5, @boleto_id, 1);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero6, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero7, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero8, @boleto_id, 1);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_reintegro, @boleto_id, 2);
     END;$$
 
+    DROP PROCEDURE IF EXISTS insert_boleto_bonoloto;$$
     CREATE PROCEDURE insert_boleto_bonoloto(
         IN _semana_id INT,
         IN _numero1 INT,
@@ -125,6 +133,7 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_reintegro, @boleto_id, 2);
     END;$$
 
+    DROP PROCEDURE IF EXISTS insert_boleto_euromillones;$$
     CREATE PROCEDURE insert_boleto_euromillon(
         IN _semana_id INT,
         IN _numero1 INT,
@@ -148,6 +157,7 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela3, @boleto_id, 3);
     END;$$
 
+    DROP PROCEDURE IF EXISTS insert_boleto_gordo;$$
     CREATE PROCEDURE insert_boleto_gordo(
         IN _semana_id INT,
         IN _numero1 INT,
@@ -169,6 +179,7 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_reintegro, @boleto_id, 2);
     END;$$
 
+    DROP PROCEDURE IF EXISTS insert_boleto_lototurf;$$
     CREATE PROCEDURE insert_boleto_lototurf(
         IN _semana_id INT,
         IN _numero1 INT,
@@ -177,6 +188,7 @@ DELIMITER $$
         IN _numero4 INT,
         IN _numero5 INT,
         IN _numero6 INT,
+        IN _reintegro INT,
         IN _cabalo INT
     ) BEGIN
         INSERT INTO boleto (sorteo_id, semana_id) VALUES (7, _semana_id);
@@ -187,10 +199,12 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero4, @boleto_id, 1);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero5, @boleto_id, 1);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero6, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_reintegro, @boleto_id, 2);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_cabalo, @boleto_id, 4);
     END;$$
 
     -- Selects
+    DROP PROCEDURE IF EXISTS get_boletos_lot_nac_sab;$$
     CREATE PROCEDURE get_boletos_lot_nac_sab(IN _semana_id INT) BEGIN
         SELECT n.numero
         FROM boleto AS b
@@ -198,6 +212,7 @@ DELIMITER $$
         WHERE b.sorteo_id = 1 AND b.semana_id = _semana_id;
     END;$$
 
+    DROP PROCEDURE IF EXISTS get_boletos_lot_nac_xov;$$
     CREATE PROCEDURE get_boletos_lot_nac_xov(IN _semana_id INT) BEGIN
         SELECT n.numero
         FROM boleto AS b
