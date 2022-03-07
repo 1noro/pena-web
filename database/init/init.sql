@@ -44,9 +44,27 @@ CREATE TABLE IF NOT EXISTS numero (
 );
 
 
+-- Datos iniciales
+INSERT IGNORE INTO sorteo (id, nombre, dias, precio) VALUES
+    (1, 'Lotaría Nacional (Sábado)', '0000010', 6.0),
+    (2, 'Lotaría Nacional (Xoves)', '0001000', 3.0),
+    (3, 'A Primitiva', '0001010', 56.0),
+    (4, 'Bonoloto', '1111110', 21.0),
+    (5, 'Euromillones', '0100100', 15.0),
+    (6, 'O Gordo da Primitiva', '0000001', 9.0),
+    (7, 'Lototurf', '0000001', 1.0);
+
+INSERT IGNORE INTO tipo_numero (id, nombre) VALUES
+    (1, 'Principal'),
+    (2, 'Reintegro'),
+    (3, 'Estrela'),
+    (4, 'Cabalo');
+
+
 -- Procedures
 DELIMITER $$
 
+    -- Inserts
     CREATE PROCEDURE insert_boleto_lot_nac_sab(
         IN _semana_id INT,
         IN _numero INT
@@ -55,7 +73,7 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero, LAST_INSERT_ID(), 1);
     END;$$
 
-    CREATE PROCEDURE insert_boleto_lot_nac_xob(
+    CREATE PROCEDURE insert_boleto_lot_nac_xov(
         IN _semana_id INT,
         IN _numero INT
     ) BEGIN
@@ -84,20 +102,112 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_reintegro, @boleto_id, 2);
     END;$$
 
+    CREATE PROCEDURE insert_boleto_bonoloto(
+        IN _semana_id INT,
+        IN _numero1 INT,
+        IN _numero2 INT,
+        IN _numero3 INT,
+        IN _numero4 INT,
+        IN _numero5 INT,
+        IN _numero6 INT,
+        IN _numero7 INT,
+        IN _reintegro INT
+    ) BEGIN
+        INSERT INTO boleto (sorteo_id, semana_id) VALUES (4, _semana_id);
+        SET @boleto_id = LAST_INSERT_ID();
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero1, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero2, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero3, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero4, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero5, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero6, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero7, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_reintegro, @boleto_id, 2);
+    END;$$
+
+    CREATE PROCEDURE insert_boleto_euromillon(
+        IN _semana_id INT,
+        IN _numero1 INT,
+        IN _numero2 INT,
+        IN _numero3 INT,
+        IN _numero4 INT,
+        IN _numero5 INT,
+        IN _estrela1 INT,
+        IN _estrela2 INT,
+        IN _estrela3 INT
+    ) BEGIN
+        INSERT INTO boleto (sorteo_id, semana_id) VALUES (5, _semana_id);
+        SET @boleto_id = LAST_INSERT_ID();
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero1, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero2, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero3, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero4, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero5, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela1, @boleto_id, 3);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela2, @boleto_id, 3);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela3, @boleto_id, 3);
+    END;$$
+
+    CREATE PROCEDURE insert_boleto_gordo(
+        IN _semana_id INT,
+        IN _numero1 INT,
+        IN _numero2 INT,
+        IN _numero3 INT,
+        IN _numero4 INT,
+        IN _numero5 INT,
+        IN _numero6 INT,
+        IN _reintegro INT
+    ) BEGIN
+        INSERT INTO boleto (sorteo_id, semana_id) VALUES (6, _semana_id);
+        SET @boleto_id = LAST_INSERT_ID();
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero1, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero2, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero3, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero4, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero5, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero6, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_reintegro, @boleto_id, 2);
+    END;$$
+
+    CREATE PROCEDURE insert_boleto_lototurf(
+        IN _semana_id INT,
+        IN _numero1 INT,
+        IN _numero2 INT,
+        IN _numero3 INT,
+        IN _numero4 INT,
+        IN _numero5 INT,
+        IN _numero6 INT,
+        IN _cabalo INT
+    ) BEGIN
+        INSERT INTO boleto (sorteo_id, semana_id) VALUES (7, _semana_id);
+        SET @boleto_id = LAST_INSERT_ID();
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero1, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero2, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero3, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero4, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero5, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero6, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_cabalo, @boleto_id, 4);
+    END;$$
+
+    -- Selects
+    CREATE PROCEDURE get_boletos_lot_nac_sab(IN _semana_id INT) BEGIN
+        SELECT n.numero
+        FROM boleto AS b
+        INNER JOIN numero AS n ON n.boleto_id = b.id
+        WHERE b.sorteo_id = 1 AND b.semana_id = _semana_id;
+    END;$$
+
+    CREATE PROCEDURE get_boletos_lot_nac_xov(IN _semana_id INT) BEGIN
+        SELECT n.numero
+        FROM boleto AS b
+        INNER JOIN numero AS n ON n.boleto_id = b.id
+        WHERE b.sorteo_id = 2 AND b.semana_id = _semana_id;
+    END;$$
+
+    -- CREATE PROCEDURE get_boletos_primitiva(IN _semana_id INT) BEGIN
+    --     SELECT n.numero
+    --     FROM boleto AS b
+    -- END;$$
+
 DELIMITER ;
-
-
--- Datos iniciales
-INSERT IGNORE INTO sorteo (id, nombre, dias, precio) VALUES
-    (1, 'Lotaría Nacional (Sábado)', '0000010', 6.0),
-    (2, 'Lotaría Nacional (Xoves)', '0001000', 3.0),
-    (3, 'A Primitiva', '0001010', 56.0),
-    (4, 'Bonoloto', '1111110', 21.0),
-    (5, 'Euromillones', '0100100', 15.0),
-    (6, 'O Gordo da Primitiva', '0000001', 9.0),
-    (7, 'Lototurf', '0000001', 1.0);
-
-INSERT IGNORE INTO tipo_numero (id, nombre) VALUES
-    (1, 'Principal'),
-    (2, 'Reintegro'),
-    (3, 'Estrela');
