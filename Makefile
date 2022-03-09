@@ -14,3 +14,6 @@ setup:
 reset-volumes:
 	@docker volume rm pena-db
 	@docker volume create pena-db
+
+ps:
+	@watch -n 1 docker ps
