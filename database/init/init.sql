@@ -1,46 +1,45 @@
-CREATE DATABASE IF NOT EXISTS penadb;
+CREATE DATABASE IF NOT EXISTS penadb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE penadb;
-
 
 -- Tables
 CREATE TABLE IF NOT EXISTS sorteo (
-    id INT NOT NULL,
+    id INTEGER NOT NULL,
     nombre VARCHAR(50) NOT NULL,
     dias CHAR(7) NOT NULL,
     precio FLOAT NOT NULL,
-    PRIMARY KEY (id)
+    CONSTRAINT sorteo_id PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS semana (
-    id INT NOT NULL,
-    numero int NOT NULL,
+    id INTEGER NOT NULL,
+    numero INTEGER NOT NULL,
     fecha_lunes DATE NOT NULL,
-    PRIMARY KEY (id)
+    CONSTRAINT semana_id PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS tipo_numero (
-    id INT NOT NULL,
+    id INTEGER NOT NULL,
     nombre VARCHAR(50) NOT NULL,
-    PRIMARY KEY (id)
+    CONSTRAINT tipo_numero_id PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS boleto (
-    id INT NOT NULL AUTO_INCREMENT,
-    sorteo_id INT NOT NULL,
-    semana_id INT NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (sorteo_id) REFERENCES sorteo(id),
-    FOREIGN KEY (semana_id) REFERENCES semana(id)
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    sorteo_id INTEGER NOT NULL,
+    semana_id INTEGER NOT NULL,
+    CONSTRAINT boleto_id PRIMARY KEY (id),
+    CONSTRAINT boleto_sorteo_id FOREIGN KEY (sorteo_id) REFERENCES sorteo(id),
+    CONSTRAINT boleto_semana_id FOREIGN KEY (semana_id) REFERENCES semana(id)
 );
 
 CREATE TABLE IF NOT EXISTS numero (
-    id INT NOT NULL AUTO_INCREMENT,
-    numero INT NOT NULL,
-    boleto_id INT NOT NULL,
-    tipo_numero_id INT NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (boleto_id) REFERENCES boleto(id),
-    FOREIGN KEY (tipo_numero_id) REFERENCES tipo_numero(id)
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    numero INTEGER NOT NULL,
+    boleto_id INTEGER NOT NULL,
+    tipo_numero_id INTEGER NOT NULL,
+    CONSTRAINT numero_id PRIMARY KEY (id),
+    CONSTRAINT numero_boleto_id FOREIGN KEY (boleto_id) REFERENCES boleto(id),
+    CONSTRAINT numero_tipo_numero_id FOREIGN KEY (tipo_numero_id) REFERENCES tipo_numero(id)
 );
 
 
@@ -67,8 +66,8 @@ DELIMITER $$
     -- Inserts
     DROP PROCEDURE IF EXISTS insert_boleto_lot_nac_sab;$$
     CREATE PROCEDURE insert_boleto_lot_nac_sab(
-        IN _semana_id INT,
-        IN _numero INT
+        IN _semana_id INTEGER,
+        IN _numero INTEGER
     ) BEGIN
         INSERT INTO boleto (sorteo_id, semana_id) VALUES (1, _semana_id);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero, LAST_INSERT_ID(), 1);
@@ -76,8 +75,8 @@ DELIMITER $$
 
     DROP PROCEDURE IF EXISTS insert_boleto_lot_nac_xov;$$
     CREATE PROCEDURE insert_boleto_lot_nac_xov(
-        IN _semana_id INT,
-        IN _numero INT
+        IN _semana_id INTEGER,
+        IN _numero INTEGER
     ) BEGIN
         INSERT INTO boleto (sorteo_id, semana_id) VALUES (2, _semana_id);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero, LAST_INSERT_ID(), 1);
@@ -85,16 +84,16 @@ DELIMITER $$
 
     DROP PROCEDURE IF EXISTS insert_boleto_primitiva;$$
     CREATE PROCEDURE insert_boleto_primitiva(
-        IN _semana_id INT,
-        IN _numero1 INT,
-        IN _numero2 INT,
-        IN _numero3 INT,
-        IN _numero4 INT,
-        IN _numero5 INT,
-        IN _numero6 INT,
-        IN _numero7 INT,
-        IN _numero8 INT,
-        IN _reintegro INT
+        IN _semana_id INTEGER,
+        IN _numero1 INTEGER,
+        IN _numero2 INTEGER,
+        IN _numero3 INTEGER,
+        IN _numero4 INTEGER,
+        IN _numero5 INTEGER,
+        IN _numero6 INTEGER,
+        IN _numero7 INTEGER,
+        IN _numero8 INTEGER,
+        IN _reintegro INTEGER
     ) BEGIN
         INSERT INTO boleto (sorteo_id, semana_id) VALUES (3, _semana_id);
         SET @boleto_id = LAST_INSERT_ID();
@@ -111,15 +110,15 @@ DELIMITER $$
 
     DROP PROCEDURE IF EXISTS insert_boleto_bonoloto;$$
     CREATE PROCEDURE insert_boleto_bonoloto(
-        IN _semana_id INT,
-        IN _numero1 INT,
-        IN _numero2 INT,
-        IN _numero3 INT,
-        IN _numero4 INT,
-        IN _numero5 INT,
-        IN _numero6 INT,
-        IN _numero7 INT,
-        IN _reintegro INT
+        IN _semana_id INTEGER,
+        IN _numero1 INTEGER,
+        IN _numero2 INTEGER,
+        IN _numero3 INTEGER,
+        IN _numero4 INTEGER,
+        IN _numero5 INTEGER,
+        IN _numero6 INTEGER,
+        IN _numero7 INTEGER,
+        IN _reintegro INTEGER
     ) BEGIN
         INSERT INTO boleto (sorteo_id, semana_id) VALUES (4, _semana_id);
         SET @boleto_id = LAST_INSERT_ID();
@@ -133,17 +132,17 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_reintegro, @boleto_id, 2);
     END;$$
 
-    DROP PROCEDURE IF EXISTS insert_boleto_euromillones;$$
+    DROP PROCEDURE IF EXISTS insert_boleto_euromillon;$$
     CREATE PROCEDURE insert_boleto_euromillon(
-        IN _semana_id INT,
-        IN _numero1 INT,
-        IN _numero2 INT,
-        IN _numero3 INT,
-        IN _numero4 INT,
-        IN _numero5 INT,
-        IN _estrela1 INT,
-        IN _estrela2 INT,
-        IN _estrela3 INT
+        IN _semana_id INTEGER,
+        IN _numero1 INTEGER,
+        IN _numero2 INTEGER,
+        IN _numero3 INTEGER,
+        IN _numero4 INTEGER,
+        IN _numero5 INTEGER,
+        IN _estrela1 INTEGER,
+        IN _estrela2 INTEGER,
+        IN _estrela3 INTEGER
     ) BEGIN
         INSERT INTO boleto (sorteo_id, semana_id) VALUES (5, _semana_id);
         SET @boleto_id = LAST_INSERT_ID();
@@ -159,14 +158,14 @@ DELIMITER $$
 
     DROP PROCEDURE IF EXISTS insert_boleto_gordo;$$
     CREATE PROCEDURE insert_boleto_gordo(
-        IN _semana_id INT,
-        IN _numero1 INT,
-        IN _numero2 INT,
-        IN _numero3 INT,
-        IN _numero4 INT,
-        IN _numero5 INT,
-        IN _numero6 INT,
-        IN _reintegro INT
+        IN _semana_id INTEGER,
+        IN _numero1 INTEGER,
+        IN _numero2 INTEGER,
+        IN _numero3 INTEGER,
+        IN _numero4 INTEGER,
+        IN _numero5 INTEGER,
+        IN _numero6 INTEGER,
+        IN _reintegro INTEGER
     ) BEGIN
         INSERT INTO boleto (sorteo_id, semana_id) VALUES (6, _semana_id);
         SET @boleto_id = LAST_INSERT_ID();
@@ -181,15 +180,15 @@ DELIMITER $$
 
     DROP PROCEDURE IF EXISTS insert_boleto_lototurf;$$
     CREATE PROCEDURE insert_boleto_lototurf(
-        IN _semana_id INT,
-        IN _numero1 INT,
-        IN _numero2 INT,
-        IN _numero3 INT,
-        IN _numero4 INT,
-        IN _numero5 INT,
-        IN _numero6 INT,
-        IN _reintegro INT,
-        IN _cabalo INT
+        IN _semana_id INTEGER,
+        IN _numero1 INTEGER,
+        IN _numero2 INTEGER,
+        IN _numero3 INTEGER,
+        IN _numero4 INTEGER,
+        IN _numero5 INTEGER,
+        IN _numero6 INTEGER,
+        IN _reintegro INTEGER,
+        IN _cabalo INTEGER
     ) BEGIN
         INSERT INTO boleto (sorteo_id, semana_id) VALUES (7, _semana_id);
         SET @boleto_id = LAST_INSERT_ID();
@@ -203,9 +202,60 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_cabalo, @boleto_id, 4);
     END;$$
 
+    drop view if exists boleto_view;$$
+    create view boleto_view as select
+        boleto.sorteo_id as sorteo_id,
+        boleto.semana_id as semana_id,
+        group_concat('[', json_object(
+            '$.numero', numero.numero,
+            '$.tipo', tipo.nombre
+        ), ']') as numero
+    from boleto boleto
+    join numero numero on boleto.id = numero.boleto_id
+    join tipo_numero tipo on numero.tipo_numero_id = tipo.id
+    group by boleto.sorteo_id, boleto.semana_id;$$
+
     -- Selects
+    drop procedure if exists get_semana;$$
+    create procedure get_semana(
+        in _semana integer
+    ) begin
+        
+        select
+            boleto.id as boleto_id,
+            boleto.sorteo_id as sorteo_id,
+            boleto.semana_id as semana_id,
+            concat('[', group_concat(json_object(
+                'numero', numero.numero,
+                'tipo', tipo.nombre
+            )), ']') as numero
+        from (
+            select * from boleto where semana_id = _semana
+        ) boleto
+        join numero numero on boleto.id = numero.boleto_id
+        join tipo_numero tipo on numero.tipo_numero_id = tipo.id
+        group by boleto.id, boleto.sorteo_id, boleto.semana_id;
+        
+        /*select
+            boleto.id as boleto_id,
+            boleto.sorteo_id as sorteo_id,
+            boleto.semana_id as semana_id,
+            concat('[', group_concat(json_object(
+                'numero', numero.numero,
+                'tipo', tipo.nombre
+            )), ']') as numero
+        from boleto boleto
+        join numero numero on
+            -- boleto.semana_id = _semana &&
+            boleto.id = numero.boleto_id
+        join tipo_numero tipo on numero.tipo_numero_id = tipo.id
+        where boleto.semana_id = _semana
+        group by boleto.id, boleto.sorteo_id, boleto.semana_id;*/
+        
+    end;$$
+
     DROP PROCEDURE IF EXISTS get_boletos_lot_nac_sab;$$
-    CREATE PROCEDURE get_boletos_lot_nac_sab(IN _semana_id INT) BEGIN
+    CREATE PROCEDURE get_boletos_lot_nac_sab(IN _semana_id INTEGER) BEGIN
         SELECT n.numero
         FROM boleto AS b
         INNER JOIN numero AS n ON n.boleto_id = b.id
@@ -213,14 +263,14 @@ DELIMITER $$
     END;$$
 
     DROP PROCEDURE IF EXISTS get_boletos_lot_nac_xov;$$
-    CREATE PROCEDURE get_boletos_lot_nac_xov(IN _semana_id INT) BEGIN
+    CREATE PROCEDURE get_boletos_lot_nac_xov(IN _semana_id INTEGER) BEGIN
         SELECT n.numero
         FROM boleto AS b
         INNER JOIN numero AS n ON n.boleto_id = b.id
         WHERE b.sorteo_id = 2 AND b.semana_id = _semana_id;
     END;$$
 
-    -- CREATE PROCEDURE get_boletos_primitiva(IN _semana_id INT) BEGIN
+    -- CREATE PROCEDURE get_boletos_primitiva(IN _semana_id INTEGER) BEGIN
     --     SELECT n.numero
     --     FROM boleto AS b
     -- END;$$
