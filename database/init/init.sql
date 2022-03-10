@@ -1,9 +1,4 @@
 CREATE DATABASE IF NOT EXISTS penadb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-
-CREATE USER 'readonly'@'%' IDENTIFIED BY '12345678';
-GRANT SELECT, SHOW VIEW ON penadb.* TO 'readonly'@'%';
-FLUSH PRIVILEGES;
-
 USE penadb;
 
 -- Tables
@@ -238,7 +233,8 @@ DELIMITER $$
         ) boleto
         JOIN numero numero ON boleto.id = numero.boleto_id
         JOIN tipo_numero tipo ON numero.tipo_numero_id = tipo.id
-        GROUP BY boleto.id, boleto.sorteo_id, boleto.semana_id;*/
+        GROUP BY boleto.id, boleto.sorteo_id, boleto.semana_id
+        ORDER BY boleto.sorteo_id;*/
         
         SELECT
             boleto.id AS boleto_id,
@@ -254,7 +250,8 @@ DELIMITER $$
             boleto.id = numero.boleto_id
         JOIN tipo_numero tipo ON numero.tipo_numero_id = tipo.id
         WHERE boleto.semana_id = _semana
-        GROUP BY boleto.id, boleto.sorteo_id, boleto.semana_id;
+        GROUP BY boleto.id, boleto.sorteo_id, boleto.semana_id
+        ORDER BY boleto.sorteo_id;
         
     END;$$
 
@@ -275,3 +272,10 @@ DELIMITER $$
     END;$$
 
 DELIMITER ;
+
+-- User
+CREATE USER 'readonly'@'%' IDENTIFIED BY '12345678';
+GRANT SELECT, SHOW VIEW ON penadb.* TO 'readonly'@'%';
+GRANT EXECUTE ON PROCEDURE get_semana TO 'readonly'@'%';
+FLUSH PRIVILEGES;
+
