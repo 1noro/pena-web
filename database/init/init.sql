@@ -1,4 +1,9 @@
 CREATE DATABASE IF NOT EXISTS penadb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+CREATE USER 'readonly'@'%' IDENTIFIED BY '12345678';
+GRANT SELECT, SHOW VIEW ON penadb.* TO 'readonly'@'%';
+FLUSH PRIVILEGES;
+
 USE penadb;
 
 -- Tables
@@ -202,57 +207,56 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_cabalo, @boleto_id, 4);
     END;$$
 
-    drop view if exists boleto_view;$$
-    create view boleto_view as select
-        boleto.sorteo_id as sorteo_id,
-        boleto.semana_id as semana_id,
+    DROP VIEW IF EXISTS boleto_view;$$
+    CREATE VIEW boleto_view AS SELECT
+        boleto.sorteo_id AS sorteo_id,
+        boleto.semana_id AS semana_id,
         group_concat('[', json_object(
             '$.numero', numero.numero,
             '$.tipo', tipo.nombre
-        ), ']') as numero
-    from boleto boleto
-    join numero numero on boleto.id = numero.boleto_id
-    join tipo_numero tipo on numero.tipo_numero_id = tipo.id
-    group by boleto.sorteo_id, boleto.semana_id;$$
+        ), ']') AS numero
+    FROM boleto boleto
+    JOIN numero numero ON boleto.id = numero.boleto_id
+    JOIN tipo_numero tipo ON numero.tipo_numero_id = tipo.id
+    GROUP BY boleto.sorteo_id, boleto.semana_id;$$
 
     -- Selects
-    drop procedure if exists get_semana;$$
-    create procedure get_semana(
-        in _semana integer
-    ) begin
-        
-        select
-            boleto.id as boleto_id,
-            boleto.sorteo_id as sorteo_id,
-            boleto.semana_id as semana_id,
+    DROP PROCEDURE IF EXISTS get_semana;$$
+    CREATE PROCEDURE get_semana(
+        IN _semana INTEGER
+    ) BEGIN
+        /*SELECT
+            boleto.id AS boleto_id,
+            boleto.sorteo_id AS sorteo_id,
+            boleto.semana_id AS semana_id,
             concat('[', group_concat(json_object(
                 'numero', numero.numero,
                 'tipo', tipo.nombre
-            )), ']') as numero
-        from (
-            select * from boleto where semana_id = _semana
+            )), ']') AS numero
+        FROM (
+            SELECT * FROM boleto WHERE semana_id = _semana
         ) boleto
-        join numero numero on boleto.id = numero.boleto_id
-        join tipo_numero tipo on numero.tipo_numero_id = tipo.id
-        group by boleto.id, boleto.sorteo_id, boleto.semana_id;
+        JOIN numero numero ON boleto.id = numero.boleto_id
+        JOIN tipo_numero tipo ON numero.tipo_numero_id = tipo.id
+        GROUP BY boleto.id, boleto.sorteo_id, boleto.semana_id;*/
         
-        /*select
-            boleto.id as boleto_id,
-            boleto.sorteo_id as sorteo_id,
-            boleto.semana_id as semana_id,
+        SELECT
+            boleto.id AS boleto_id,
+            boleto.sorteo_id AS sorteo_id,
+            boleto.semana_id AS semana_id,
             concat('[', group_concat(json_object(
                 'numero', numero.numero,
                 'tipo', tipo.nombre
-            )), ']') as numero
-        from boleto boleto
-        join numero numero on
+            )), ']') AS numero
+        FROM boleto boleto
+        JOIN numero numero ON
             -- boleto.semana_id = _semana &&
             boleto.id = numero.boleto_id
-        join tipo_numero tipo on numero.tipo_numero_id = tipo.id
-        where boleto.semana_id = _semana
-        group by boleto.id, boleto.sorteo_id, boleto.semana_id;*/
+        JOIN tipo_numero tipo ON numero.tipo_numero_id = tipo.id
+        WHERE boleto.semana_id = _semana
+        GROUP BY boleto.id, boleto.sorteo_id, boleto.semana_id;
         
-    end;$$
+    END;$$
 
     DROP PROCEDURE IF EXISTS get_boletos_lot_nac_sab;$$
     CREATE PROCEDURE get_boletos_lot_nac_sab(IN _semana_id INTEGER) BEGIN
@@ -269,10 +273,5 @@ DELIMITER $$
         INNER JOIN numero AS n ON n.boleto_id = b.id
         WHERE b.sorteo_id = 2 AND b.semana_id = _semana_id;
     END;$$
-
-    -- CREATE PROCEDURE get_boletos_primitiva(IN _semana_id INTEGER) BEGIN
-    --     SELECT n.numero
-    --     FROM boleto AS b
-    -- END;$$
 
 DELIMITER ;
