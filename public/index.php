@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Pena</title>
     </head>
-    <body style="width: 800px;">
+    <body style="max-width: 800px;">
         <header>
             <h1>Pena</h1>
             <hr>
