@@ -21,6 +21,11 @@ services:
     container_name: php-fpm
     image: php:8-fpm-custom
     build: ./docker/php
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
     networks:
       - pena-net
     volumes:
