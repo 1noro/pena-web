@@ -255,7 +255,7 @@ DELIMITER $$
         
     END;$$
 
-    DROP PROCEDURE IF EXISTS get_boletos_lot_nac_sab;$$
+    /*DROP PROCEDURE IF EXISTS get_boletos_lot_nac_sab;$$
     CREATE PROCEDURE get_boletos_lot_nac_sab(IN _semana_id INTEGER) BEGIN
         SELECT n.numero
         FROM boleto AS b
@@ -269,7 +269,7 @@ DELIMITER $$
         FROM boleto AS b
         INNER JOIN numero AS n ON n.boleto_id = b.id
         WHERE b.sorteo_id = 2 AND b.semana_id = _semana_id;
-    END;$$
+    END;$$*/
 
 DELIMITER ;
 
