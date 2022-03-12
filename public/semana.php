@@ -42,6 +42,7 @@
     <body style="max-width: 800px;">
         <header>
             <h1>Pena</h1>
+            <p><a href="index.php">Lista de semanas</a></p>
             <hr>
         </header>
         <main>
@@ -54,6 +55,7 @@
                     echo "<p>0 resultados 😲</p>";
                 }
             ?>
+            <p><a href="index.php">[Voltar á lista de semanas]</a></p>
         </main>
         <footer>
             <hr>

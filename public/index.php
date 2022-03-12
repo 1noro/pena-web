@@ -18,7 +18,7 @@
                     die("<p>Connection failed: " . $conn->connect_error . "</p>\n");
                 }
 
-                $sql = "SELECT id, numero, fecha_lunes FROM semana";
+                $sql = "SELECT id, numero, fecha_lunes FROM semana ORDER BY fecha_lunes DESC";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
