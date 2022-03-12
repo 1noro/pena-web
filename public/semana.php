@@ -12,7 +12,9 @@
         $sorteos = getSorteos($conn);
         // $tiposNumero = getTiposNumero($conn);
         $boletosSemana = getBoletosSemana($conn, $_GET["id"]);
-        $boletosPorSorteo = getBoletosPorSorteo($sorteos, $boletosSemana);
+        if ($boletosSemana != null) {
+            $boletosPorSorteo = getBoletosPorSorteo($sorteos, $boletosSemana);
+        }
     } else {
         die("<h1>Erro 404</h1>\n<p>A semana " . $_GET["id"] . " non existe.</p>\n");
     }
@@ -25,6 +27,17 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Pena</title>
+        <style>
+            table {
+                text-align: center;
+                border: 1px outset grey;
+                padding: 1px;
+            }
+            td {
+                border: 1px inset grey;
+                padding: 1px;
+            }
+        </style>
     </head>
     <body style="max-width: 800px;">
         <header>
@@ -33,31 +46,14 @@
         </header>
         <main>
             <h2>Semana número <?= $datosSemana["numero"] ?> do ano <?= $datosSemana["ano"] ?></h2>
-            <p>Na semana comezada o <?= $datosSemana["dia"] . "/" . $datosSemana["mes"] . "/" . $datosSemana["ano"] ?> xoganse os seguintes números.</p>
-            <pre>
+            <p>Na semana comezada o <?= $datosSemana["dia"] . "/" . $datosSemana["mes"] . "/" . $datosSemana["ano"] ?> xóganse os seguintes números.</p>
             <?php
-                // if ($result->num_rows > 0) {
-                //     // output data of each row
-                //     echo '<table border="1">';
-                //     while($row = $result->fetch_assoc()) {
-                //         $numeroJSON = json_decode($row["numero"]);
-                //         $sorteo_id = $row["sorteo_id"];
-                //         // echo "<tr><td>$numeroJSON</td></tr>";
-                //         if ($sorteo_id == 1) {
-                //             $numero = $numeroJSON[0]->numero;
-                //             echo "<tr><td>$sorteo_id</td><td>" . sprintf('%05d', $numero) . "</td></tr>";
-                //         }
-                //     }
-                //     echo "</table>";
-                // } else {
-                //     echo "<p>0 resultados 😲</p>";
-                // }
-
-                print_r($boletosPorSorteo);
-
-
+                if ($boletosPorSorteo != []) {
+                    echo getSorteosHTML($boletosPorSorteo);
+                } else {
+                    echo "<p>0 resultados 😲</p>";
+                }
             ?>
-            </pre>
         </main>
         <footer>
             <hr>

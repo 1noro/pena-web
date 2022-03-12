@@ -75,25 +75,56 @@ function getBoletosPorSorteo($sorteos, $boletosSemana) {
         $sorteo["numeros"] = [];
         foreach($boletosSemana as $boleto) {
             if ($sorteo["id"] == $boleto["sorteo_id"]) {
-                if (count($boleto["numeros"]) == 1) {
-                    // lot nac xov/sab
-                    array_push($sorteo["numeros"], $boleto["numeros"][0]["numero"]);
-                } else {
-                    // primitiva/bonoloto/euromillon/gordo/lototurf
-                    $boletoOrganizado = [];
-                    foreach($boleto["numeros"] as $numero) {
-                        if (!array_key_exists($numero["tipo"], $boletoOrganizado)) {
-                            $boletoOrganizado[$numero["tipo"]] = [];
-                        }
-                        array_push($boletoOrganizado[$numero["tipo"]], $numero["numero"]);
+                $boletoOrganizado = [];
+                foreach($boleto["numeros"] as $numero) {
+                    if (!array_key_exists($numero["tipo"], $boletoOrganizado)) {
+                        $boletoOrganizado[$numero["tipo"]] = [];
                     }
-                    array_push($sorteo["numeros"], $boletoOrganizado);
+                    array_push($boletoOrganizado[$numero["tipo"]], $numero["numero"]);
                 }
+                array_push($sorteo["numeros"], $boletoOrganizado);
             }
         }
         array_push($boletosPorSorteo, $sorteo);
     }
     return $boletosPorSorteo;
+}
+
+function getSorteosHTML($boletosPorSorteo) {
+    $html = "";
+    foreach($boletosPorSorteo as $sorteo) {
+        if ($sorteo["numeros"] > 0) {
+            $html .= "<div class='sorteo'>";
+            $html .= "<h3>" . $sorteo["nombre"] . "</h3>";
+            $html .= "<table>";
+            $html .= "<tr>";
+            $tipos = array_keys($sorteo["numeros"][0]);
+            foreach ($tipos as $tipo) {
+                $html .= "<th>" . $tipo . "</th>";
+            }
+            $html .= "<tr>";
+            foreach($sorteo["numeros"] as $numero) {
+                $html .= "<tr>";
+                if (count($tipos) == 1) {
+                    // lot nac xov/sab
+                    $html .= "<td>" . sprintf('%05d', $numero[$tipos[0]][0]) . "</td>";
+                } else {
+                    // resto
+                    foreach($tipos as $tipo) {
+                        $html .= "<td>";
+                        foreach($numero[$tipo] as $componente) {
+                            $html .= sprintf('%02d', $componente) . " ";
+                        }
+                        $html .= "</td>";
+                    }
+                }
+                $html .= "</tr>";
+            }
+            $html .= "</table>";
+            $html .= "</div>";
+        }
+    }
+    return $html;
 }
 
 ?>
