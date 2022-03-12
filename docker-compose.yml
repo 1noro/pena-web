@@ -7,6 +7,8 @@ services:
     ports:
       - "3308:3306"
     env_file: database/.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - pena-db:/var/lib/mysql
       - ./database/init:/docker-entrypoint-initdb.d
@@ -20,7 +22,9 @@ services:
   php-fpm:
     container_name: php-fpm
     image: php:8-fpm-custom
-    build: ./docker/php
+    build:
+      dockerfile: ./docker/php/Dockerfile
+      target: ${ENV}
     environment:
       - DB_HOST=${DB_HOST}
       - DB_USER=${DB_USER}
