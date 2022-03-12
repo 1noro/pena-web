@@ -1,25 +1,29 @@
 <?php
-    include "utils.php";
+    if (isset($_GET["id"])) {
+        include "utils.php";
 
-    $conn = new mysqli(getenv('DB_HOST'), getenv('DB_USER'), getenv('DB_PASS'), getenv('DB_NAME'));
-    if ($conn->connect_error) {
-        die("<p>Connection failed: " . $conn->connect_error . "</p>\n");
-    }
-
-    $boletosPorSorteo = [];
-    $datosSemana = getSemanaById($conn, $_GET["id"]);
-    if ($datosSemana != null) {
-        $sorteos = getSorteos($conn);
-        // $tiposNumero = getTiposNumero($conn);
-        $boletosSemana = getBoletosSemana($conn, $_GET["id"]);
-        if ($boletosSemana != null) {
-            $boletosPorSorteo = getBoletosPorSorteo($sorteos, $boletosSemana);
+        $conn = new mysqli(getenv('DB_HOST'), getenv('DB_USER'), getenv('DB_PASS'), getenv('DB_NAME'));
+        if ($conn->connect_error) {
+            die("<p>Connection failed: " . $conn->connect_error . "</p>\n");
         }
-    } else {
-        die("<h1>Erro 404</h1>\n<p>A semana " . $_GET["id"] . " non existe.</p>\n");
-    }
 
-    $conn->close();
+        $boletosPorSorteo = [];
+        $datosSemana = getSemanaById($conn, $_GET["id"]);
+        if ($datosSemana != null) {
+            $sorteos = getSorteos($conn);
+            // $tiposNumero = getTiposNumero($conn);
+            $boletosSemana = getBoletosSemana($conn, $_GET["id"]);
+            if ($boletosSemana != null) {
+                $boletosPorSorteo = getBoletosPorSorteo($sorteos, $boletosSemana);
+            }
+        } else {
+            die("<h1>Erro 404</h1>\n<p>A semana " . $_GET["id"] . " non existe.</p>\n");
+        }
+
+        $conn->close();
+    } else {
+        die("<h1>Erro 400</h1>\n<p>Tes que solicitar unha semana.</p>\n");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="gl">
@@ -55,7 +59,6 @@
                     echo "<p>0 resultados 😲</p>";
                 }
             ?>
-            <pre><?= print_r($boletosPorSorteo) ?></pre>
             <p><a href="index.php">[Voltar á lista de semanas]</a></p>
         </main>
         <footer>
