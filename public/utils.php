@@ -89,7 +89,9 @@ function getBoletosPorSorteo($sorteos, $boletosSemana) {
                 array_push($sorteo["numeros"], $boletoOrganizado);
             }
         }
-        array_push($boletosPorSorteo, $sorteo);
+        if ($sorteo["numeros"] != []) {
+            array_push($boletosPorSorteo, $sorteo);
+        }
     }
     return $boletosPorSorteo;
 }

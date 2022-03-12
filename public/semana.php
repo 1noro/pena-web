@@ -52,6 +52,7 @@
         <main>
             <h2>Semana número <?= $datosSemana["numero"] ?> do ano <?= $datosSemana["ano"] ?></h2>
             <p>Na semana comezada o <?= $datosSemana["dia"] . "/" . $datosSemana["mes"] . "/" . $datosSemana["ano"] ?> xóganse os seguintes números.</p>
+            <!-- <pre><?php /*print_r($boletosPorSorteo)*/ ?></pre> -->
             <?php
                 if ($boletosPorSorteo != []) {
                     echo getSorteosHTML($boletosPorSorteo);
