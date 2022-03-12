@@ -6,7 +6,6 @@ services:
     build: ./database
     ports:
       - "3308:3306"
-    env_file: database/.env
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
@@ -45,7 +44,7 @@ services:
     networks:
       - pena-net
     ports:
-      - "8080:80"
+      - "9006:80"
     volumes:
       - ./public:/public
       - ./config/nginx/site.conf:/etc/nginx/conf.d/site.conf
