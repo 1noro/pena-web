@@ -54,7 +54,7 @@ INSERT IGNORE INTO sorteo (id, nombre, dias, precio) VALUES
     (7, 'Lototurf', '0000001', 1.0);
 
 INSERT IGNORE INTO tipo_numero (id, nombre) VALUES
-    (1, 'Principal'),
+    (1, 'Número'),
     (2, 'Reintegro'),
     (3, 'Estrela'),
     (4, 'Cabalo');
@@ -255,6 +255,8 @@ DELIMITER $$
         
     END;$$
 
+DELIMITER ;
+
     /*DROP PROCEDURE IF EXISTS get_boletos_lot_nac_sab;$$
     CREATE PROCEDURE get_boletos_lot_nac_sab(IN _semana_id INTEGER) BEGIN
         SELECT n.numero
@@ -270,5 +272,3 @@ DELIMITER $$
         INNER JOIN numero AS n ON n.boleto_id = b.id
         WHERE b.sorteo_id = 2 AND b.semana_id = _semana_id;
     END;$$*/
-
-DELIMITER ;

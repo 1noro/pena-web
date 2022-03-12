@@ -1,3 +1,5 @@
+USE penadb;
+
 -- User
 CREATE USER 'readonly'@'%' IDENTIFIED BY '12345678';
 GRANT SELECT, SHOW VIEW ON penadb.* TO 'readonly'@'%';
