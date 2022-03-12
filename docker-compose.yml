@@ -22,6 +22,7 @@ services:
     container_name: php-fpm
     image: php:8-fpm-custom
     build:
+      context: .
       dockerfile: ./docker/php/Dockerfile
       target: ${ENV}
     environment:
