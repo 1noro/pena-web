@@ -1,5 +1,9 @@
 <?php
 
+function formatToTwoDecimals($number) {
+    return number_format($number, 2, ",", ".");
+}
+
 function getSemanaById($conn, $id) {
     $sql = "SELECT id, numero, fecha_lunes FROM semana WHERE id = " . $_GET["id"];
     $result = $conn->query($sql);
@@ -94,8 +98,11 @@ function getSorteosHTML($boletosPorSorteo) {
     $html = "";
     foreach($boletosPorSorteo as $sorteo) {
         if ($sorteo["numeros"] > 0) {
+            $precioBoleto = formatToTwoDecimals($sorteo["precio"]);
+            $totalInvertido = formatToTwoDecimals($sorteo["precio"] * count($sorteo["numeros"]));
             $html .= "<div class='sorteo'>";
             $html .= "<h3>" . $sorteo["nombre"] . "</h3>";
+            $html .= "<p>Invertiuse un total de $totalInvertido € ($precioBoleto € por boleto).</p>";
             $html .= "<table>";
             $html .= "<tr>";
             $tipos = array_keys($sorteo["numeros"][0]);

@@ -55,6 +55,7 @@
                     echo "<p>0 resultados 😲</p>";
                 }
             ?>
+            <pre><?= print_r($boletosPorSorteo) ?></pre>
             <p><a href="index.php">[Voltar á lista de semanas]</a></p>
         </main>
         <footer>
