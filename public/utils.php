@@ -4,23 +4,54 @@ function formatToTwoDecimals($number) {
     return number_format($number, 2, ",", ".");
 }
 
-function getSemanaById($conn, $id) {
-    $sql = "SELECT id, numero, fecha_lunes FROM semana WHERE id = " . $_GET["id"];
+function getNewConn() {
+    $conn = new mysqli(getenv('DB_HOST'), getenv('DB_USER'), getenv('DB_PASS'), getenv('DB_NAME'));
+    if ($conn->connect_error) {
+        die("<p>Connection failed: " . $conn->connect_error . "</p>\n");
+    }
+    return $conn;
+}
+
+// function getSemanaById($conn, $id) {
+function getSemanaById($id) {
+    $conn = getNewConn();
+    $sql = "SELECT id, numero, fecha_lunes, participantes, total_ganado FROM semana WHERE id = " . $_GET["id"];
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
+        $conn->close();
         return [
             "numero" => $row["numero"],
             "ano" => date("Y", strtotime($row["fecha_lunes"])),
             "mes" => date("m", strtotime($row["fecha_lunes"])),
-            "dia" => date("d", strtotime($row["fecha_lunes"]))
+            "dia" => date("d", strtotime($row["fecha_lunes"])),
+            "participantes" => $row["participantes"],
+            "total_ganado" => $row["total_ganado"]
         ];
     } else {
+        $conn->close();
         return null;
     }
 }
 
-function getSorteos($conn) {
+// function getTotalInvertido($conn, $id) {
+function getTotalInvertido($id) {
+    $conn = getNewConn();
+    $sql = "CALL get_total_semana($id)";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $conn->close();
+        return $row["total_invertido"];
+    } else {
+        $conn->close();
+        return null;
+    }
+}
+
+// function getSorteos($conn) {
+function getSorteos() {
+    $conn = getNewConn();
     $sql = "SELECT id, nombre, dias, precio FROM sorteo";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
@@ -33,8 +64,10 @@ function getSorteos($conn) {
                 "precio" => $row["precio"]
             ];
         }
+        $conn->close();
         return $sorteos;
     } else {
+        $conn->close();
         return null;
     }
 }
@@ -56,7 +89,9 @@ function getSorteos($conn) {
 //     }
 // }
 
-function getBoletosSemana($conn, $semanaId) {
+// function getBoletosSemana($conn, $semanaId) {
+function getBoletosSemana($semanaId) {
+    $conn = getNewConn();
     $sql = "CALL get_semana($semanaId)";
     $result = $conn->query($sql);
     $boletos = [];
@@ -67,8 +102,10 @@ function getBoletosSemana($conn, $semanaId) {
                 "numeros" => json_decode($row["numero"], true)
             ];
         }
+        $conn->close();
         return $boletos;
     } else {
+        $conn->close();
         return null;
     }
 }
