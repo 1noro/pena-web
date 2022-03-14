@@ -12,7 +12,6 @@ function getNewConn() {
     return $conn;
 }
 
-// function getSemanaById($conn, $id) {
 function getSemanaById($id) {
     $conn = getNewConn();
     $sql = "SELECT id, numero, fecha_lunes, participantes, total_ganado FROM semana WHERE id = " . $_GET["id"];
@@ -34,7 +33,6 @@ function getSemanaById($id) {
     }
 }
 
-// function getTotalInvertido($conn, $id) {
 function getTotalInvertido($id) {
     $conn = getNewConn();
     $sql = "CALL get_total_semana($id)";
@@ -49,7 +47,6 @@ function getTotalInvertido($id) {
     }
 }
 
-// function getSorteos($conn) {
 function getSorteos() {
     $conn = getNewConn();
     $sql = "SELECT id, nombre, dias, precio FROM sorteo";
@@ -89,7 +86,6 @@ function getSorteos() {
 //     }
 // }
 
-// function getBoletosSemana($conn, $semanaId) {
 function getBoletosSemana($semanaId) {
     $conn = getNewConn();
     $sql = "CALL get_semana($semanaId)";

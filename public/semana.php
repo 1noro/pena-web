@@ -2,30 +2,22 @@
     if (isset($_GET["id"])) {
         include "utils.php";
 
-        // $conn = new mysqli(getenv('DB_HOST'), getenv('DB_USER'), getenv('DB_PASS'), getenv('DB_NAME'));
-        // if ($conn->connect_error) {
-        //     die("<p>Connection failed: " . $conn->connect_error . "</p>\n");
-        // }
-
         $boletosPorSorteo = [];
         $inversion_semanal = 0;
         $saldo_semanal = 0;
         $saldo_semanal_persoa = 0;
         $saldo_color = "inherit";
-        // $datosSemana = getSemanaById($conn, $_GET["id"]);
+
         $datosSemana = getSemanaById($_GET["id"]);
         if ($datosSemana != null) {
-            // $inversion_semanal = getTotalInvertido($conn, $_GET["id"]);
             $inversion_semanal = getTotalInvertido($_GET["id"]);
             $saldo_semanal = $datosSemana["total_ganado"] - $inversion_semanal;
             $saldo_semanal_persoa = $saldo_semanal / $datosSemana["participantes"];
             if ($saldo_semanal < 0) {
                 $saldo_color = "#a51b0b";
             }
-            // $sorteos = getSorteos($conn);
             $sorteos = getSorteos();
             // $tiposNumero = getTiposNumero($conn);
-            // $boletosSemana = getBoletosSemana($conn, $_GET["id"]);
             $boletosSemana = getBoletosSemana($_GET["id"]);
             if ($boletosSemana != null) {
                 $boletosPorSorteo = getBoletosPorSorteo($sorteos, $boletosSemana);
@@ -33,8 +25,6 @@
         } else {
             die("<h1>Erro 404</h1>\n<p>A semana " . $_GET["id"] . " non existe.</p>\n");
         }
-
-        // $conn->close();
     } else {
         die("<h1>Erro 400</h1>\n<p>Tes que solicitar unha semana.</p>\n");
     }
