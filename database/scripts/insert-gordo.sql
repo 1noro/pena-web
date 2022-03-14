@@ -2,4 +2,5 @@ USE penadb;
 
 SET @semana_id = 202210;
 
-CALL insert_boleto_gordo(@semana_id, 05, 13, 21, 22, 34, 48, 04);
+-- TODO rename: reintegro -> numero clave
+CALL insert_boleto_gordo(@semana_id, 13, 15, 25, 34, 43, 48, 05);
