@@ -14,6 +14,8 @@ CREATE TABLE IF NOT EXISTS semana (
     id INTEGER NOT NULL,
     numero INTEGER NOT NULL,
     fecha_lunes DATE NOT NULL,
+    participantes INTEGER NOT NULL,
+    total_ganado FLOAT DEFAULT NULL,
     CONSTRAINT semana_id PRIMARY KEY (id)
 );
 
@@ -41,6 +43,21 @@ CREATE TABLE IF NOT EXISTS numero (
     CONSTRAINT numero_boleto_id FOREIGN KEY (boleto_id) REFERENCES boleto(id),
     CONSTRAINT numero_tipo_numero_id FOREIGN KEY (tipo_numero_id) REFERENCES tipo_numero(id)
 );
+
+
+-- Views
+DROP VIEW IF EXISTS boleto_view;
+CREATE VIEW boleto_view AS SELECT
+    boleto.sorteo_id AS sorteo_id,
+    boleto.semana_id AS semana_id,
+    group_concat('[', json_object(
+        '$.numero', numero.numero,
+        '$.tipo', tipo.nombre
+    ), ']') AS numero
+FROM boleto boleto
+JOIN numero numero ON boleto.id = numero.boleto_id
+JOIN tipo_numero tipo ON numero.tipo_numero_id = tipo.id
+GROUP BY boleto.sorteo_id, boleto.semana_id;
 
 
 -- Datos iniciales
@@ -202,23 +219,19 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_cabalo, @boleto_id, 4);
     END;$$
 
-    DROP VIEW IF EXISTS boleto_view;$$
-    CREATE VIEW boleto_view AS SELECT
-        boleto.sorteo_id AS sorteo_id,
-        boleto.semana_id AS semana_id,
-        group_concat('[', json_object(
-            '$.numero', numero.numero,
-            '$.tipo', tipo.nombre
-        ), ']') AS numero
-    FROM boleto boleto
-    JOIN numero numero ON boleto.id = numero.boleto_id
-    JOIN tipo_numero tipo ON numero.tipo_numero_id = tipo.id
-    GROUP BY boleto.sorteo_id, boleto.semana_id;$$
+    -- Updates
+    DROP PROCEDURE IF EXISTS update_total_ganado;$$
+    CREATE PROCEDURE update_total_ganado(
+        IN _semana_id INTEGER,
+        IN _total_ganado FLOAT
+    ) BEGIN 
+        UPDATE semana SET total_ganado = _total_ganado WHERE id = _semana_id;
+    END;$$
 
     -- Selects
     DROP PROCEDURE IF EXISTS get_semana;$$
     CREATE PROCEDURE get_semana(
-        IN _semana INTEGER
+        IN _semana_id INTEGER
     ) BEGIN
         /*SELECT
             boleto.id AS boleto_id,
@@ -229,7 +242,7 @@ DELIMITER $$
                 'tipo', tipo.nombre
             )), ']') AS numero
         FROM (
-            SELECT * FROM boleto WHERE semana_id = _semana
+            SELECT * FROM boleto WHERE semana_id = _semana_id
         ) boleto
         JOIN numero numero ON boleto.id = numero.boleto_id
         JOIN tipo_numero tipo ON numero.tipo_numero_id = tipo.id
@@ -246,13 +259,22 @@ DELIMITER $$
             )), ']') AS numero
         FROM boleto boleto
         JOIN numero numero ON
-            -- boleto.semana_id = _semana &&
+            -- boleto.semana_id = _semana_id &&
             boleto.id = numero.boleto_id
         JOIN tipo_numero tipo ON numero.tipo_numero_id = tipo.id
-        WHERE boleto.semana_id = _semana
+        WHERE boleto.semana_id = _semana_id
         GROUP BY boleto.id, boleto.sorteo_id, boleto.semana_id
         ORDER BY boleto.sorteo_id;
-        
+    END;$$
+
+    DROP PROCEDURE IF EXISTS get_total_semana;$$
+    CREATE PROCEDURE get_total_semana(
+        IN _semana_id INTEGER
+    ) BEGIN
+        SELECT SUM(sorteo.precio)
+        FROM boleto boleto
+        JOIN sorteo sorteo ON boleto.sorteo_id = sorteo.id
+        WHERE boleto.semana_id = _semana_id;
     END;$$
 
 DELIMITER ;
@@ -272,3 +294,15 @@ DELIMITER ;
         INNER JOIN numero AS n ON n.boleto_id = b.id
         WHERE b.sorteo_id = 2 AND b.semana_id = _semana_id;
     END;$$*/
+
+/*
+-- GET SORTEOS Y EL TOTAL GASTADO POR CADA UNO EN UNA SEMANA
+SELECT
+    boleto.sorteo_id AS sorteo_id,
+    COUNT(*) AS num_boletos,
+    COUNT(*) * sorteo.precio AS coste_total
+FROM boleto boleto
+JOIN sorteo sorteo ON boleto.sorteo_id = sorteo.id
+WHERE boleto.semana_id = 202210
+GROUP BY boleto.sorteo_id;
+*/
