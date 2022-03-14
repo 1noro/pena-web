@@ -271,7 +271,7 @@ DELIMITER $$
     CREATE PROCEDURE get_total_semana(
         IN _semana_id INTEGER
     ) BEGIN
-        SELECT SUM(sorteo.precio)
+        SELECT SUM(sorteo.precio) AS total_invertido
         FROM boleto boleto
         JOIN sorteo sorteo ON boleto.sorteo_id = sorteo.id
         WHERE boleto.semana_id = _semana_id;
