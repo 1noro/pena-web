@@ -99,8 +99,32 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero, LAST_INSERT_ID(), 1);
     END;$$
 
-    DROP PROCEDURE IF EXISTS insert_boleto_primitiva;$$
-    CREATE PROCEDURE insert_boleto_primitiva(
+    DROP PROCEDURE IF EXISTS insert_boleto_primitiva7;$$
+    CREATE PROCEDURE insert_boleto_primitiva7(
+        IN _semana_id INTEGER,
+        IN _numero1 INTEGER,
+        IN _numero2 INTEGER,
+        IN _numero3 INTEGER,
+        IN _numero4 INTEGER,
+        IN _numero5 INTEGER,
+        IN _numero6 INTEGER,
+        IN _numero7 INTEGER,
+        IN _reintegro INTEGER
+    ) BEGIN
+        INSERT INTO boleto (sorteo_id, semana_id) VALUES (3, _semana_id);
+        SET @boleto_id = LAST_INSERT_ID();
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero1, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero2, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero3, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero4, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero5, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero6, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero7, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_reintegro, @boleto_id, 2);
+    END;$$
+
+    DROP PROCEDURE IF EXISTS insert_boleto_primitiva8;$$
+    CREATE PROCEDURE insert_boleto_primitiva8(
         IN _semana_id INTEGER,
         IN _numero1 INTEGER,
         IN _numero2 INTEGER,

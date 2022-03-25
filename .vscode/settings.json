@@ -2,6 +2,7 @@
     "conventionalCommits.scopes": [
         "mysql",
         "web",
-        "infra"
+        "infra",
+        "make"
     ]
 }
