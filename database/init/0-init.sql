@@ -64,11 +64,12 @@ GROUP BY boleto.sorteo_id, boleto.semana_id;
 INSERT IGNORE INTO sorteo (id, nombre, dias, precio) VALUES
     (1, 'Lotaría Nacional (Sábado)', '0000010', 6.0),
     (2, 'Lotaría Nacional (Xoves)', '0001000', 3.0),
-    (3, 'A Primitiva', '0001010', 56.0),
-    (4, 'Bonoloto', '1111110', 21.0),
-    (5, 'Euromillones', '0100100', 15.0),
-    (6, 'O Gordo da Primitiva', '0000001', 9.0),
-    (7, 'Lototurf', '0000001', 1.0);
+    (3, 'A Primitiva (7 números)', '0001010', 14.0),
+    (4, 'A Primitiva (8 números)', '0001010', 56.0),
+    (5, 'Bonoloto', '1111110', 21.0),
+    (6, 'Euromillones', '0100100', 15.0),
+    (7, 'O Gordo da Primitiva', '0000001', 9.0),
+    (8, 'Lototurf', '0000001', 1.0);
 
 INSERT IGNORE INTO tipo_numero (id, nombre) VALUES
     (1, 'Número'),
@@ -136,7 +137,7 @@ DELIMITER $$
         IN _numero8 INTEGER,
         IN _reintegro INTEGER
     ) BEGIN
-        INSERT INTO boleto (sorteo_id, semana_id) VALUES (3, _semana_id);
+        INSERT INTO boleto (sorteo_id, semana_id) VALUES (4, _semana_id);
         SET @boleto_id = LAST_INSERT_ID();
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero1, @boleto_id, 1);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero2, @boleto_id, 1);
@@ -161,7 +162,7 @@ DELIMITER $$
         IN _numero7 INTEGER,
         IN _reintegro INTEGER
     ) BEGIN
-        INSERT INTO boleto (sorteo_id, semana_id) VALUES (4, _semana_id);
+        INSERT INTO boleto (sorteo_id, semana_id) VALUES (5, _semana_id);
         SET @boleto_id = LAST_INSERT_ID();
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero1, @boleto_id, 1);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero2, @boleto_id, 1);
@@ -185,7 +186,7 @@ DELIMITER $$
         IN _estrela2 INTEGER,
         IN _estrela3 INTEGER
     ) BEGIN
-        INSERT INTO boleto (sorteo_id, semana_id) VALUES (5, _semana_id);
+        INSERT INTO boleto (sorteo_id, semana_id) VALUES (6, _semana_id);
         SET @boleto_id = LAST_INSERT_ID();
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero1, @boleto_id, 1);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero2, @boleto_id, 1);
@@ -208,7 +209,7 @@ DELIMITER $$
         IN _numero6 INTEGER,
         IN _reintegro INTEGER
     ) BEGIN
-        INSERT INTO boleto (sorteo_id, semana_id) VALUES (6, _semana_id);
+        INSERT INTO boleto (sorteo_id, semana_id) VALUES (7, _semana_id);
         SET @boleto_id = LAST_INSERT_ID();
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero1, @boleto_id, 1);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero2, @boleto_id, 1);
@@ -231,7 +232,7 @@ DELIMITER $$
         IN _reintegro INTEGER,
         IN _cabalo INTEGER
     ) BEGIN
-        INSERT INTO boleto (sorteo_id, semana_id) VALUES (7, _semana_id);
+        INSERT INTO boleto (sorteo_id, semana_id) VALUES (8, _semana_id);
         SET @boleto_id = LAST_INSERT_ID();
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero1, @boleto_id, 1);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero2, @boleto_id, 1);
