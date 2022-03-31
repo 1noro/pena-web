@@ -16,7 +16,7 @@ CALL insert_boleto_euromillon(@semana_id, 13, 25, 34, 43, 48, 04, 05, 07);
 CALL insert_boleto_gordo(@semana_id, 13, 15, 25, 34, 43, 48, 05);
 
 
-CALL insert_boleto_lototurf(@semana_id, 04, 13, 14, 15, 22, 25, 01, 05);
+CALL insert_boleto_lototurf(@semana_id, 04, 13, 14, 15, 22, 25, 05, 01);
 
 
 CALL insert_boleto_primitiva8(@semana_id, 13, 15, 21, 25, 33, 43, 48, 49, 00);
