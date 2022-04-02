@@ -30,6 +30,7 @@ CALL insert_boleto_primitiva8(@semana_id, 04, 05, 13, 22, 25, 30, 40, 48, 07);
 CALL insert_boleto_primitiva8(@semana_id, 05, 13, 21, 22, 25, 30, 43, 48, 08);
 CALL insert_boleto_primitiva8(@semana_id, 07, 13, 15, 21, 25, 30, 34, 48, 09);
 
+
 CALL insert_boleto_primitiva7(@semana_id, 08, 11, 19, 28, 35, 37, 45, 00);
 CALL insert_boleto_primitiva7(@semana_id, 11, 19, 28, 36, 44, 45, 47, 01);
 CALL insert_boleto_primitiva7(@semana_id, 03, 06, 08, 11, 28, 36, 45, 02);
