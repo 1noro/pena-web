@@ -6,6 +6,7 @@
         $inversion_semanal = 0;
         $saldo_semanal = 0;
         $saldo_semanal_persoa = 0;
+        $saldo_semanal_persoa_proba = 0;
         $saldo_color = "inherit";
 
         $datosSemana = getSemanaById($_GET["id"]);
@@ -13,6 +14,7 @@
             $inversion_semanal = getTotalInvertido($_GET["id"]);
             $saldo_semanal = $datosSemana["total_ganado"] - $inversion_semanal;
             $saldo_semanal_persoa = $saldo_semanal / $datosSemana["participantes"];
+            $saldo_semanal_persoa_proba = $saldo_semanal_persoa / 5;
             if ($saldo_semanal < 0) {
                 $saldo_color = "#a51b0b";
             }
@@ -78,6 +80,10 @@
                     <tr>
                         <th class="left">Saldo semanal por persoa:</th>
                         <td class="right noborder" style="color: <?= $saldo_color ?>;"><?= formatToTwoDecimals($saldo_semanal_persoa) ?> €</td>
+                    </tr>
+                    <tr>
+                        <th class="left">Saldo semanal por persoa en proba:</th>
+                        <td class="right noborder" style="color: <?= $saldo_color ?>;"><?= formatToTwoDecimals($saldo_semanal_persoa_proba) ?> €</td>
                     </tr>
                 </table>
             </p>
