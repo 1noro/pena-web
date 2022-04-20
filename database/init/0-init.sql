@@ -69,13 +69,15 @@ INSERT IGNORE INTO sorteo (id, nombre, dias, precio) VALUES
     (5, 'Bonoloto', '1111110', 21.0),
     (6, 'Euromillones', '0100100', 15.0),
     (7, 'O Gordo da Primitiva', '0000001', 9.0),
-    (8, 'Lototurf', '0000001', 1.0);
+    (8, 'Lototurf', '0000001', 1.0),
+    (9, 'Euromillones Martes (5 estrelas)', '0100000', 25.0);
 
 INSERT IGNORE INTO tipo_numero (id, nombre) VALUES
     (1, 'Número'),
     (2, 'Reintegro'),
     (3, 'Estrela'),
-    (4, 'Cabalo');
+    (4, 'Cabalo'),
+    (5, 'Número Clave');
 
 
 -- Procedures
@@ -171,7 +173,7 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero5, @boleto_id, 1);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero6, @boleto_id, 1);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero7, @boleto_id, 1);
-        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_reintegro, @boleto_id, 2);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_reintegro, @boleto_id, 5);
     END;$$
 
     DROP PROCEDURE IF EXISTS insert_boleto_euromillon;$$
@@ -196,6 +198,34 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela1, @boleto_id, 3);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela2, @boleto_id, 3);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela3, @boleto_id, 3);
+    END;$$
+
+    DROP PROCEDURE IF EXISTS insert_boleto_euromillon5m;$$
+    CREATE PROCEDURE insert_boleto_euromillon5m(
+        IN _semana_id INTEGER,
+        IN _numero1 INTEGER,
+        IN _numero2 INTEGER,
+        IN _numero3 INTEGER,
+        IN _numero4 INTEGER,
+        IN _numero5 INTEGER,
+        IN _estrela1 INTEGER,
+        IN _estrela2 INTEGER,
+        IN _estrela3 INTEGER,
+        IN _estrela4 INTEGER,
+        IN _estrela5 INTEGER
+    ) BEGIN
+        INSERT INTO boleto (sorteo_id, semana_id) VALUES (9, _semana_id);
+        SET @boleto_id = LAST_INSERT_ID();
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero1, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero2, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero3, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero4, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero5, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela1, @boleto_id, 3);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela2, @boleto_id, 3);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela3, @boleto_id, 3);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela4, @boleto_id, 3);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela5, @boleto_id, 3);
     END;$$
 
     DROP PROCEDURE IF EXISTS insert_boleto_gordo;$$
