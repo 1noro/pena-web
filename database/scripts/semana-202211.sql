@@ -12,7 +12,6 @@ CALL insert_boleto_bonoloto(@semana_id, 05, 13, 15, 25, 34, 43, 48, 04);
 CALL insert_boleto_euromillon(@semana_id, 13, 25, 34, 43, 48, 04, 05, 07);
 
 
--- TODO rename: reintegro -> numero clave
 CALL insert_boleto_gordo(@semana_id, 13, 15, 25, 34, 43, 48, 05);
 
 
