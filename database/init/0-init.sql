@@ -62,15 +62,16 @@ GROUP BY boleto.sorteo_id, boleto.semana_id;
 
 -- Datos iniciales
 INSERT IGNORE INTO sorteo (id, nombre, dias, precio) VALUES
-    (1, 'Lotaría Nacional (Sábado)', '0000010', 6.0),
-    (2, 'Lotaría Nacional (Xoves)', '0001000', 3.0),
-    (3, 'A Primitiva (7 números)', '0001010', 14.0),
-    (4, 'A Primitiva (8 números)', '0001010', 56.0),
-    (5, 'Bonoloto', '1111110', 21.0),
-    (6, 'Euromillones', '0100100', 15.0),
-    (7, 'O Gordo da Primitiva', '0000001', 9.0),
-    (8, 'Lototurf', '0000001', 1.0),
-    (9, 'Euromillones Martes (5 estrelas)', '0100000', 25.0);
+    ( 1, 'Lotaría Nacional (Sábado)', '0000010', 6.0),
+    ( 2, 'Lotaría Nacional (Xoves)', '0001000', 3.0),
+    ( 3, 'Primitiva Semanal (7 números)', '0001010', 14.0),
+    ( 4, 'Primitiva Semanal (8 números)', '0001010', 56.0),
+    ( 5, 'Bonoloto Semanal', '1111110', 21.0),
+    ( 6, 'Euromillones Semanal', '0100100', 15.0),
+    ( 7, 'O Gordo da Primitiva', '0000001', 9.0),
+    ( 8, 'Lototurf', '0000001', 1.0),
+    ( 9, 'Euromillones Martes (5 estrelas)', '0100000', 25.0),
+    (10, 'Euromillones Venres (5 estrelas)', '0000100', 25.0);
 
 INSERT IGNORE INTO tipo_numero (id, nombre) VALUES
     (1, 'Número'),
@@ -215,6 +216,34 @@ DELIMITER $$
         IN _estrela5 INTEGER
     ) BEGIN
         INSERT INTO boleto (sorteo_id, semana_id) VALUES (9, _semana_id);
+        SET @boleto_id = LAST_INSERT_ID();
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero1, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero2, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero3, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero4, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero5, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela1, @boleto_id, 3);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela2, @boleto_id, 3);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela3, @boleto_id, 3);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela4, @boleto_id, 3);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_estrela5, @boleto_id, 3);
+    END;$$
+
+    DROP PROCEDURE IF EXISTS insert_boleto_euromillon5v;$$
+    CREATE PROCEDURE insert_boleto_euromillon5v(
+        IN _semana_id INTEGER,
+        IN _numero1 INTEGER,
+        IN _numero2 INTEGER,
+        IN _numero3 INTEGER,
+        IN _numero4 INTEGER,
+        IN _numero5 INTEGER,
+        IN _estrela1 INTEGER,
+        IN _estrela2 INTEGER,
+        IN _estrela3 INTEGER,
+        IN _estrela4 INTEGER,
+        IN _estrela5 INTEGER
+    ) BEGIN
+        INSERT INTO boleto (sorteo_id, semana_id) VALUES (10, _semana_id);
         SET @boleto_id = LAST_INSERT_ID();
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero1, @boleto_id, 1);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero2, @boleto_id, 1);
