@@ -1,3 +1,6 @@
+include .env
+export
+
 all: help
 
 help:
@@ -10,6 +13,8 @@ help:
 	@echo "	setup"
 	@echo "	reset-volumes"
 	@echo "	ps"
+	@echo "	mysql-connect"
+	@echo "	mysql-initialize"
 
 up:
 	@DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1 docker-compose up -d --build
@@ -30,3 +35,9 @@ reset-volumes:
 
 ps:
 	@watch -n 1 docker ps
+
+mysql-connect:
+	@docker run -it --rm --network pena-net mysql mysql -h 'mysql' -u 'root' -p"$(MYSQL_ROOT_PASSWORD)"
+
+mysql-initialize:
+	@/bin/bash scripts/mysql-initialize.sh $(MYSQL_ROOT_PASSWORD)
