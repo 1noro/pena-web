@@ -72,8 +72,8 @@ INSERT IGNORE INTO sorteo (id, nombre, dias, precio) VALUES
     ( 8, 'Lototurf', '0000001', 1.0),
     ( 9, 'Euromillones Martes (5 estrelas)', '0100000', 25.0),
     (10, 'Euromillones Venres (5 estrelas)', '0000100', 25.0),
-    (11, 'Euromillones Martes (2 estrelas)', '0100000', 5.0),
-    (12, 'Euromillones Venres (2 estrelas)', '0000100', 5.0);
+    (11, 'Euromillones Martes (2 estrelas)', '0100000', 2.5),
+    (12, 'Euromillones Venres (2 estrelas)', '0000100', 2.5);
 
 INSERT IGNORE INTO tipo_numero (id, nombre) VALUES
     (1, 'Número'),
