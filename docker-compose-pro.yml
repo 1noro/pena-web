@@ -22,7 +22,7 @@ services:
 
   pena-php-fpm:
     container_name: pena-php-fpm
-    image: pena-php-fpm:dev
+    image: pena-php-fpm:pro
     build:
       context: .
       dockerfile: ./docker/pena-php-fpm/Dockerfile
