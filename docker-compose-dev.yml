@@ -1,0 +1,72 @@
+version: "3.5"
+services:
+
+  pena-mysql:
+    container_name: pena-mysql
+    image: pena-mysql:dev
+    build:
+      context: ./database
+      target: dev
+    ports:
+      - "3308:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - pena-db:/var/lib/mysql
+      # - ./database/dumps:/dumps
+    networks:
+      - pena-net
+    healthcheck:
+      test: ["CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
+      timeout: 20s
+      retries: 10
+
+  pena-php-fpm:
+    container_name: pena-php-fpm
+    image: pena-php-fpm:dev
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+      target: dev
+    expose:
+      - "9000"
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+    networks:
+      - pena-net
+    volumes:
+      - ./public:/public
+
+  pena-web:
+    container_name: pena-web
+    image: pena-web:dev
+    build:
+      context: .
+      target: dev
+    links:
+      - php-fpm
+    depends_on:
+      - mysql
+      - php-fpm
+    networks:
+      - pena-net
+    ports:
+      - "9006:80"
+    volumes:
+      - ./public:/public
+    healthcheck:
+      test: service nginx status || exit 1
+      interval: 10s
+      timeout: 20s
+      retries: 10
+
+volumes:
+  pena-db:
+    external: true
+
+networks:
+  pena-net:
+    external: true
