@@ -75,7 +75,8 @@ INSERT IGNORE INTO sorteo (id, nombre, dias, precio) VALUES
     (11, 'Euromillones Martes (2 estrelas)', '0100000', 2.5),
     (12, 'Euromillones Venres (2 estrelas)', '0000100', 2.5),
     (13, 'Lototurf (7 números)', '0000001', 7.0),
-    (14, 'Lototurf (8 números)', '0000001', 28.0);
+    (14, 'Lototurf (8 números)', '0000001', 28.0),
+    (15, 'Lototurf (9 números)', '0000001', 84.0);
 
 INSERT IGNORE INTO tipo_numero (id, nombre) VALUES
     (1, 'Número'),
@@ -401,6 +402,36 @@ DELIMITER $$
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero6, @boleto_id, 1);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero7, @boleto_id, 1);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero8, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_reintegro, @boleto_id, 2);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_cabalo, @boleto_id, 4);
+    END;$$
+
+    DROP PROCEDURE IF EXISTS insert_boleto_lototurf9;$$
+    CREATE PROCEDURE insert_boleto_lototurf9(
+        IN _semana_id INTEGER,
+        IN _numero1 INTEGER,
+        IN _numero2 INTEGER,
+        IN _numero3 INTEGER,
+        IN _numero4 INTEGER,
+        IN _numero5 INTEGER,
+        IN _numero6 INTEGER,
+        IN _numero7 INTEGER,
+        IN _numero8 INTEGER,
+        IN _numero9 INTEGER,
+        IN _reintegro INTEGER,
+        IN _cabalo INTEGER
+    ) BEGIN
+        INSERT INTO boleto (sorteo_id, semana_id) VALUES (15, _semana_id);
+        SET @boleto_id = LAST_INSERT_ID();
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero1, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero2, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero3, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero4, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero5, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero6, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero7, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero8, @boleto_id, 1);
+        INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_numero9, @boleto_id, 1);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_reintegro, @boleto_id, 2);
         INSERT INTO numero (numero, boleto_id, tipo_numero_id) VALUES (_cabalo, @boleto_id, 4);
     END;$$

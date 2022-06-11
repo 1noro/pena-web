@@ -1,9 +1,9 @@
 USE penadb;
 
-SET @semana_id = 202222;
+SET @semana_id = 202223;
 
 INSERT INTO semana (id, numero, fecha_lunes, participantes, total_ganado)
-    VALUES (@semana_id, 22, '2022-05-30', 11, 1187.00);
+    VALUES (@semana_id, 23, '2022-06-06', 11, 0.00);
 
 -- BONOLOTO --------------------------------------------------------------------
 CALL insert_boleto_bonoloto(@semana_id, 05, 13, 15, 25, 34, 43, 48, 04);
@@ -72,6 +72,9 @@ CALL insert_boleto_lototurf7(@semana_id, 07, 09, 10, 12, 14, 21, 26, 06, 04);
 CALL insert_boleto_lototurf8(@semana_id, 04, 05, 13, 15, 18, 22, 25, 30, 00, 01);
 CALL insert_boleto_lototurf8(@semana_id, 01, 02, 16, 17, 20, 24, 27, 31, 03, 02);
 CALL insert_boleto_lototurf8(@semana_id, 03, 06, 08, 11, 19, 23, 28, 29, 03, 03);
+
+
+CALL insert_boleto_lototurf9(@semana_id, 04, 05, 13, 14, 15, 22, 25, 30, 31, 09, 05);
 
 
 -- LOTERIA NACINAL XOVES ------------------------------------------------------
