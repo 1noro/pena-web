@@ -5,7 +5,7 @@ services:
     container_name: pena-mysql
     image: pena-mysql:dev
     build:
-      context: ./database
+      context: ./docker/pena-mysql
       target: dev
     ports:
       - "3308:3306"
@@ -13,7 +13,6 @@ services:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - pena-db:/var/lib/mysql
-      # - ./database/dumps:/dumps
     networks:
       - pena-net
     healthcheck:
@@ -26,7 +25,7 @@ services:
     image: pena-php-fpm:dev
     build:
       context: .
-      dockerfile: ./docker/php/Dockerfile
+      dockerfile: ./docker/pena-php-fpm/Dockerfile
       target: dev
     expose:
       - "9000"
@@ -45,12 +44,13 @@ services:
     image: pena-web:dev
     build:
       context: .
+      dockerfile: ./docker/pena-web/Dockerfile
       target: dev
     links:
-      - php-fpm
+      - pena-php-fpm
     depends_on:
-      - mysql
-      - php-fpm
+      - pena-mysql
+      - pena-php-fpm
     networks:
       - pena-net
     ports:

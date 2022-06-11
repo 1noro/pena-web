@@ -5,7 +5,7 @@ services:
     container_name: pena-mysql
     image: pena-mysql:pro
     build:
-      context: ./database
+      context: ./docker/pena-mysql
       target: pro
     ports:
       - "3308:3306"
@@ -25,7 +25,7 @@ services:
     image: pena-php-fpm:dev
     build:
       context: .
-      dockerfile: ./docker/php/Dockerfile
+      dockerfile: ./docker/pena-php-fpm/Dockerfile
       target: pro
     expose:
       - "9000"
@@ -42,12 +42,13 @@ services:
     image: pena-web:pro
     build:
       context: .
+      dockerfile: ./docker/pena-web/Dockerfile
       target: pro
     links:
-      - php-fpm
+      - pena-php-fpm
     depends_on:
-      - mysql
-      - php-fpm
+      - pena-mysql
+      - pena-php-fpm
     networks:
       - pena-net
     ports:
