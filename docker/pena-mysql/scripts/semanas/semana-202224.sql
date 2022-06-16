@@ -1,9 +1,9 @@
 USE penadb;
 
-SET @semana_id = 202223;
+SET @semana_id = 202224;
 
 INSERT INTO semana (id, numero, fecha_lunes, participantes, total_ganado)
-    VALUES (@semana_id, 23, '2022-06-06', 11, 609.00);
+    VALUES (@semana_id, 24, '2022-06-13', 11, 0.00);
 
 -- BONOLOTO --------------------------------------------------------------------
 CALL insert_boleto_bonoloto(@semana_id, 05, 13, 15, 25, 34, 43, 48, 04);
