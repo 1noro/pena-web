@@ -1,9 +1,9 @@
 USE penadb;
 
-SET @semana_id = 202221;
+SET @semana_id = 202225;
 
 INSERT INTO semana (id, numero, fecha_lunes, participantes, total_ganado)
-    VALUES (@semana_id, 21, '2022-05-23', 11, 407.00);
+    VALUES (@semana_id, 25, '2022-06-20', 11, 0.00);
 
 -- BONOLOTO --------------------------------------------------------------------
 CALL insert_boleto_bonoloto(@semana_id, 05, 13, 15, 25, 34, 43, 48, 04);
@@ -37,7 +37,7 @@ CALL insert_boleto_primitiva7(@semana_id, 07, 13, 15, 21, 25, 30, 48, 09);
 
 
 CALL insert_boleto_primitiva7(@semana_id, 08, 11, 19, 28, 35, 37, 45, 00);
-CALL insert_boleto_primitiva7(@semana_id, 11, 19, 28, 36, 44, 45, 47, 01);
+CALL insert_boleto_primitiva7(@semana_id, 11, 19, 26, 28, 35, 44, 45, 01);
 CALL insert_boleto_primitiva7(@semana_id, 03, 06, 08, 11, 28, 36, 45, 02);
 CALL insert_boleto_primitiva7(@semana_id, 03, 11, 12, 28, 36, 37, 45, 03);
 CALL insert_boleto_primitiva7(@semana_id, 11, 12, 23, 28, 29, 37, 45, 04);
@@ -64,6 +64,23 @@ CALL insert_boleto_gordo(@semana_id, 13, 15, 25, 34, 43, 48, 05);
 
 -- LOTOTURF --------------------------------------------------------------------
 CALL insert_boleto_lototurf6s(@semana_id, 04, 13, 14, 15, 22, 25, 04, 01);
+CALL insert_boleto_lototurf6m(@semana_id, 04, 13, 14, 15, 22, 25, 04, 01); -- o mercores
+
+
+CALL insert_boleto_lototurf7s(@semana_id, 07, 09, 10, 12, 14, 21, 26, 06, 04);
+CALL insert_boleto_lototurf7m(@semana_id, 07, 09, 10, 12, 14, 21, 26, 06, 04); -- o mercores
+
+
+CALL insert_boleto_lototurf8s(@semana_id, 04, 05, 13, 15, 18, 22, 25, 30, 00, 01);
+CALL insert_boleto_lototurf8s(@semana_id, 01, 02, 16, 17, 20, 24, 27, 31, 03, 02);
+CALL insert_boleto_lototurf8s(@semana_id, 03, 06, 08, 11, 19, 23, 28, 29, 03, 03);
+CALL insert_boleto_lototurf8m(@semana_id, 04, 05, 13, 15, 18, 22, 25, 30, 00, 01); -- o mercores
+CALL insert_boleto_lototurf8m(@semana_id, 01, 02, 16, 17, 20, 24, 27, 31, 03, 02); -- o mercores
+CALL insert_boleto_lototurf8m(@semana_id, 03, 06, 08, 11, 19, 23, 28, 29, 03, 03); -- o mercores
+
+
+CALL insert_boleto_lototurf9s(@semana_id, 04, 05, 13, 14, 15, 22, 25, 30, 31, 09, 05);
+CALL insert_boleto_lototurf9m(@semana_id, 04, 05, 13, 14, 15, 22, 25, 30, 31, 09, 05); -- o mercores
 
 
 -- LOTERIA NACINAL XOVES ------------------------------------------------------

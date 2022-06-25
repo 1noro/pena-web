@@ -58,7 +58,7 @@ CALL insert_boleto_primitiva7(@semana_id, 02, 10, 24, 27, 31, 41, 42, 09);
 CALL insert_boleto_gordo(@semana_id, 13, 15, 25, 34, 43, 48, 05);
 
 
-CALL insert_boleto_lototurf(@semana_id, 04, 13, 14, 15, 22, 25, 04, 01);
+CALL insert_boleto_lototurf6s(@semana_id, 04, 13, 14, 15, 22, 25, 04, 01);
 
 
 CALL insert_boleto_lot_nac_xov(@semana_id, 61300);

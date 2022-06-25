@@ -102,7 +102,7 @@ CALL insert_boleto_gordo(@semana_id, 13, 15, 25, 34, 43, 48, 05);
 
 
 -- LOTOTURF --------------------------------------------------------------------
-CALL insert_boleto_lototurf(@semana_id, 04, 13, 14, 15, 22, 25, 05, 01);
+CALL insert_boleto_lototurf6s(@semana_id, 04, 13, 14, 15, 22, 25, 05, 01);
 
 
 -- LOTERIA NACINAL XOVES -------------------------------------------------------
